@@ -1,0 +1,22 @@
+{
+  "name": "masterz-solana",
+  "version": "1.0.0",
+  "description": "MasterZxSolana Bootcamp",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@solana/spl-token": "^0.4.6",
+    "@solana/web3.js": "^1.92.3",
+    "@types/node": "^20.14.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "@types/bs58": "^4.0.4"
+  }
+}
