@@ -1,7 +1,7 @@
 import * as bs58 from 'bs58';
 import * as fs from 'fs';
 
-const base58SecretKey = 'SECRET-ADDRESS';
+const base58SecretKey = 'SECRET_KEY';
 
 const secretKey = bs58.decode(base58SecretKey);
 
