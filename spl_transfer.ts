@@ -5,11 +5,8 @@ import {
 } from "@solana/web3.js";
 import { 
     getOrCreateAssociatedTokenAccount,
-    createAssociatedTokenAccount,
     transfer,
     getAccount,
-    ASSOCIATED_TOKEN_PROGRAM_ID,
-    TOKEN_PROGRAM_ID
 } from "@solana/spl-token";
 import wallet from "./wallet.json";
 import mintAddress from "./mint.json";
@@ -22,9 +19,8 @@ const connection = new Connection("https://api.devnet.solana.com", "confirmed");
 const mint = new PublicKey(mintAddress);
 
 // Indirizzo dell'account token sorgente (associato al mint del token)
-const fromAta = new PublicKey("AsUbzY5avaP4J6jDMcCZVnwFTHuEFQoz64feuHVvcovN");
+const fromAta = new PublicKey("3kLqxrtFoKTs9kh6gxnSAAke8GSM8F61thWesGYMiqe4");
 
-// Genera una nuova coppia di chiavi per il destinatario
 const to = Keypair.generate();
 console.log("To: ", to.publicKey.toBase58());
 
@@ -35,18 +31,17 @@ console.log("To: ", to.publicKey.toBase58());
         console.log("From Token Account: ", fromTokenAccount.address.toBase58(), "Balance: ", fromTokenAccount.amount.toString());
         console.log("Mint of fromTokenAccount: ", fromTokenAccount.mint.toBase58());
 
-        // Crea un nuovo account token associato per il destinatario
-        const toAta = await createAssociatedTokenAccount(
-            connection,
+        // Crea un account token associato per il destinatario
+        const tokenAccount = await getOrCreateAssociatedTokenAccount(
+            connection, 
             keypair,
             mint,
             to.publicKey,
-            keypair.publicKey,
-            TOKEN_PROGRAM_ID,
-            ASSOCIATED_TOKEN_PROGRAM_ID
+            true // forza la creazione di un nuovo account anche se esiste uno precedente
         );
 
-        console.log("New Associated Token Account: ", toAta.toBase58());
+        const toAta = tokenAccount.address;
+        console.log("Associated Token Account: ", toAta.toBase58());
 
         // Verifica l'account token di destinazione
         const toTokenAccount = await getAccount(connection, toAta);
